@@ -1,4 +1,4 @@
-const User = require("../models/users.mo");
+const { createUserService } = require("../services/users.sr");
 const AppError = require("../utils/appError.ut");
 
 async function createUser(req, res, next) {
@@ -6,12 +6,12 @@ async function createUser(req, res, next) {
   if (!name || !phone) {
     throw new AppError("Name and Phone are Required!", 400);
   }
-  const data = await User.create({ name, phone });
+  const data = await createUserService(req.body);
   res.data = {
     statusCode: 201,
     message: "User created Successfully!",
-    data
-  }
+    data,
+  };
   next();
 }
 
